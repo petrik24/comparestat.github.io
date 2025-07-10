@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perbandingan Raksasa Cloud: AWS vs Azure vs GCP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 450px;
+        }
+        .chart-container-sm {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+            .chart-container-sm {
+                height: 250px;
+            }
+        }
+        .card-header-aws { background-color: #fffbeb; border-top-color: #f59e0b; }
+        .card-header-azure { background-color: #f0f9ff; border-top-color: #0ea5e9; }
+        .card-header-gcp { background-color: #f0fdf4; border-top-color: #10b981; }
+        .text-aws { color: #d97706; }
+        .text-azure { color: #0284c7; }
+        .text-gcp { color: #059669; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+    <!-- Palette: AWS (Amber), Azure (Sky), GCP (Emerald) -->
+    <!-- NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-black text-slate-800 mb-4">Pertarungan Para Raksasa Cloud</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-slate-600">Perbandingan mendalam antara Amazon Web Services (AWS), Microsoft Azure, dan Google Cloud Platform (GCP) untuk membantu Anda memilih platform yang tepat.</p>
+        </header>
+
+        <section id="market-share" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4">Proyeksi Pangsa Pasar Cloud Global (Tren Kuartalan 2024)</h2>
+            <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">AWS mempertahankan posisi terdepan, sementara Azure menunjukkan pertumbuhan persentase tercepat sepanjang tahun.</p>
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                <div class="chart-container mx-auto">
+                    <canvas id="marketShareChart"></canvas>
+                </div>
+                <p class="text-xs text-center text-slate-500 mt-4">Sumber: Proyeksi berdasarkan data Synergy Research Group & Canalys.</p>
+            </div>
+        </section>
+
+        <section id="feature-comparison" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4">Perbandingan Atribut Kunci</h2>
+            <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">Setiap platform memiliki kekuatan unik. Grafik radar ini memvisualisasikan perbandingan relatif di berbagai domain penting.</p>
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                <div class="chart-container mx-auto" style="height: 450px;">
+                    <canvas id="featureComparisonChart"></canvas>
+                </div>
+                 <p class="text-xs text-center text-slate-500 mt-4">Sumber: Analisis gabungan dari laporan industri dan ulasan pengguna.</p>
+            </div>
+        </section>
+        
+        <section id="revenue" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4">Proyeksi Pendapatan Tahunan (2024)</h2>
+            <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">AWS tetap menjadi pemimpin pendapatan, mencerminkan skala dan adopsi pasarnya yang luas.</p>
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                <div class="chart-container-sm mx-auto">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <p class="text-xs text-center text-slate-500 mt-4">Sumber: Estimasi berdasarkan laporan pendapatan perusahaan dan analisis pasar.</p>
+            </div>
+        </section>
+
+        <section id="rating" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4">Rating Kepuasan Pelanggan (2024)</h2>
+            <p class="text-center text-slate-600 max-w-2xl mx-auto mb-8">GCP memimpin tipis dalam kepuasan pelanggan, seringkali dipuji karena inovasi dan model penetapan harga yang ramah pengguna.</p>
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                <div class="chart-container-sm mx-auto">
+                    <canvas id="ratingChart"></canvas>
+                </div>
+                <p class="text-xs text-center text-slate-500 mt-4">Sumber: Agregat dari Gartner Peer Insights, G2, dan TrustRadius.</p>
+            </div>
+        </section>
+
+        <section id="service-showdown" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-12">Adu Layanan Inti (Core Services)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- AWS Card -->
+                <div class="bg-white rounded-lg shadow-lg border-t-4 card-header-aws">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-aws mb-4">Amazon Web Services</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold">Compute</h4>
+                                <p class="text-sm text-slate-600">EC2, Lambda, EKS</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Storage</h4>
+                                <p class="text-sm text-slate-600">S3, EBS, Glacier</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Database</h4>
+                                <p class="text-sm text-slate-600">RDS, DynamoDB, Aurora</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">AI/ML</h4>
+                                <p class="text-sm text-slate-600">SageMaker, Bedrock, Rekognition</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Azure Card -->
+                <div class="bg-white rounded-lg shadow-lg border-t-4 card-header-azure">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-azure mb-4">Microsoft Azure</h3>
+                         <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold">Compute</h4>
+                                <p class="text-sm text-slate-600">Virtual Machines, Functions, AKS</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Storage</h4>
+                                <p class="text-sm text-slate-600">Blob Storage, Disk Storage</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Database</h4>
+                                <p class="text-sm text-slate-600">SQL Database, Cosmos DB</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">AI/ML</h4>
+                                <p class="text-sm text-slate-600">Azure ML, OpenAI Service</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- GCP Card -->
+                <div class="bg-white rounded-lg shadow-lg border-t-4 card-header-gcp">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gcp mb-4">Google Cloud Platform</h3>
+                         <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold">Compute</h4>
+                                <p class="text-sm text-slate-600">Compute Engine, Cloud Functions, GKE</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Storage</h4>
+                                <p class="text-sm text-slate-600">Cloud Storage, Persistent Disk</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Database</h4>
+                                <p class="text-sm text-slate-600">Cloud SQL, Spanner, Bigtable</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">AI/ML</h4>
+                                <p class="text-sm text-slate-600">Vertex AI, Gemini, BigQuery ML</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 pt-8 border-t border-slate-300">
+            <p class="text-slate-600">KELOMPOK 6</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const tooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        // Market Share Chart (Bar)
+        const ctxMarket = document.getElementById('marketShareChart');
+        new Chart(ctxMarket, {
+            type: 'bar',
+            data: {
+                labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                datasets: [
+                    {
+                        label: 'AWS',
+                        data: [31, 31, 30.5, 30],
+                        backgroundColor: 'rgba(245, 158, 11, 0.8)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Azure',
+                        data: [24.5, 25, 25.5, 26],
+                        backgroundColor: 'rgba(14, 165, 233, 0.8)',
+                        borderColor: '#0ea5e9',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'GCP',
+                        data: [11, 11, 11.5, 11.5],
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        borderColor: '#10b981',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Pangsa Pasar (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Feature Comparison Chart (Radar)
+        const ctxFeatures = document.getElementById('featureComparisonChart');
+        new Chart(ctxFeatures, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'Portofolio Layanan', 
+                    'Kekuatan Enterprise', 
+                    'Inovasi AI/ML', 
+                    'Harga Kompetitif', 
+                    'Komunitas & Ekosistem'
+                ],
+                datasets: [{
+                    label: 'AWS',
+                    data: [9.5, 7, 8, 6.5, 10],
+                    fill: true,
+                    backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                    borderColor: 'rgba(245, 158, 11, 1)',
+                    pointBackgroundColor: 'rgba(245, 158, 11, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(245, 158, 11, 1)'
+                }, {
+                    label: 'Azure',
+                    data: [8.5, 9.5, 8.5, 7, 8],
+                    fill: true,
+                    backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                    borderColor: 'rgba(14, 165, 233, 1)',
+                    pointBackgroundColor: 'rgba(14, 165, 233, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(14, 165, 233, 1)'
+                }, {
+                    label: 'GCP',
+                    data: [7.5, 6, 9, 8.5, 7.5],
+                    fill: true,
+                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(16, 185, 129, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { display: true },
+                        suggestedMin: 0,
+                        suggestedMax: 10,
+                        pointLabels: { font: { size: 13 } },
+                        ticks: { display: false, stepSize: 2 }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                }
+            }
+        });
+
+        // Revenue Chart (Horizontal Bar)
+        const ctxRevenue = document.getElementById('revenueChart');
+        new Chart(ctxRevenue, {
+            type: 'bar',
+            data: {
+                labels: ['AWS', 'Azure', 'GCP'],
+                datasets: [{
+                    label: 'Pendapatan (Miliar USD)',
+                    data: [100, 78, 41],
+                    backgroundColor: [
+                        'rgba(245, 158, 11, 0.7)',
+                        'rgba(14, 165, 233, 0.7)',
+                        'rgba(16, 185, 129, 0.7)'
+                    ],
+                    borderColor: ['#f59e0b', '#0ea5e9', '#10b981'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => ` $${context.parsed.x} Miliar`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Pendapatan (Miliar USD)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Rating Chart (Horizontal Bar)
+        const ctxRating = document.getElementById('ratingChart');
+        new Chart(ctxRating, {
+            type: 'bar',
+            data: {
+                labels: ['GCP', 'AWS', 'Azure'],
+                datasets: [{
+                    label: 'Rating Kepuasan',
+                    data: [4.6, 4.5, 4.4],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(245, 158, 11, 0.7)',
+                        'rgba(14, 165, 233, 0.7)'
+                    ],
+                    borderColor: ['#10b981', '#f59e0b', '#0ea5e9'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => ` ${context.parsed.x} / 5.0`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: false,
+                        min: 4.0,
+                        max: 5.0,
+                        title: {
+                            display: true,
+                            text: 'Rating (dari 5)'
+                        }
+                    }
+                }
+            }
+        }); 
+    </script>
+
+</body>
+</html>
